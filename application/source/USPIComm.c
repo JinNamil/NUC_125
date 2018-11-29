@@ -3,7 +3,7 @@
 #include "NUC121.h"
 #include "USPIComm.h"
 
-#if 0
+#if 1
     #define DBG_PRINTF      printf
 #else
     #define DBG_PRINTF(...)
@@ -71,7 +71,9 @@ void USPICommRead(uint8_t* readBuffer, uint32_t readSize)
         Check_SPI_BUSY;
         readBufferP[i] = (SPI_READ & dummy);
         __io_delay(60);
+//		__io_delay(50000);
     }
+	//DBG_PRINTF("\n");
     
-    DBG_PRINTF("%s", __FUNCTION__);
+//    DBG_PRINTF("%s", __FUNCTION__);
 }

@@ -369,7 +369,7 @@
             <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>NO_MASS_STORAGE,BULK_TRANSFER,SPI_16_BIT</Define>
+              <Define>NO_MASS_STORAGE,BULK_TRANSFER,NO_SPI_16_BIT</Define>
               <Undefine></Undefine>
               <IncludePath>.\driver\CMSIS\Include;.\driver\Device\Nuvoton\NUC121\Include;.\driver\StdDriver\inc;.\application\include</IncludePath>
             </VariousControls>

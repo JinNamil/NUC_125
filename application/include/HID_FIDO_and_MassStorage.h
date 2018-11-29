@@ -200,6 +200,7 @@ void EP7_Handler(void);
 void HID_MSC_Init(void);
 void HID_MSC_ClassRequest(void);
 void HID_MSC_ProcessCmd(void);
+//void BLE_TEST(void);
 
 void HID_AckCmd(void);
 

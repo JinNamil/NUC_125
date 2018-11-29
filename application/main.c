@@ -5,6 +5,8 @@
 
 #if 1
 #include <stdio.h>
+//#include <stdint.h>
+#include <string.h>
     #define DBG_PRINTF      printf
 #else
     #define DBG_PRINTF(...)
@@ -115,7 +117,7 @@ void USCI_SPI0_Init(void)
 {
     /* Set IP clock divider. */
 #ifdef NO_SPI_16_BIT
-    USPI_Open(USPI0, USPI_MASTER, USPI_MODE_0, 8, 5000000UL);
+    USPI_Open(USPI0, USPI_MASTER, USPI_MODE_0, 8, 4000000UL);
 #else
 	  USPI_Open(USPI0, USPI_MASTER, USPI_MODE_0, 16, 5000000UL);
 #endif
@@ -135,6 +137,7 @@ void GPIO_INT_Init(void)
     GPIO_SET_DEBOUNCE_TIME(GPIO_DBCTL_DBCLKSRC_HCLK, GPIO_DBCTL_DBCLKSEL_16);
     GPIO_ENABLE_DEBOUNCE(PB, BIT14);
 }
+#if 1
 static void __io_delay(uint32_t delay)
 {
     volatile uint32_t i;
@@ -143,10 +146,31 @@ static void __io_delay(uint32_t delay)
         __NOP();
     }
 }
+#endif
+
+void BLE_TEST(void)
+{
+	uint8_t testBuf_t[64] = {0,};
+	volatile uint32_t i;
+
+	//if( PB14 == 1 )
+	{
+		//memset(testBuf_t, 0, 64);
+		USPICommRead(testBuf_t, 64);			
+		
+		for(i =0 ; i < 64 ; i++)
+			DBG_PRINTF("%x ", testBuf_t[i]);
+			
+		DBG_PRINTF("\n");
+		
+		DBG_PRINTF("READ TEST COMPLETE\n\n");
+	}
+	__io_delay(10000000);
+}
+
 /* Main Function */
 int32_t main(void)
 {
-	int8_t testBuf[64] = {"AAAAAAAAAABBBBBBBBBBCCCCCCCCCCDDDDDDDDDDEEEEEEEEEEFFFFFFFFFFGGGG"};
     /* Unlock protected registers */
     SYS_UnlockReg();
 
@@ -176,27 +200,8 @@ int32_t main(void)
     CLK_SysTickDelay(1000);
     PC13 = 1;
 
-
-//	DBG_PRINTF("NUC WRITE TEST START\n");
-//	while(1)
-//	{
-//		USPICommWrite(testBuf, 64);
-//		DBG_PRINTF("SPI WRITE\n");
-//		__io_delay(5000000);
-//	}
-//	DBG_PRINTF("NUC WRITE TEST COMPLETE\n");
-
-	
-	while(1)
-	{
-		DBG_PRINTF("SPI READ\n");
-		memset(testBuf, 0, 64);
-		USPICommRead(testBuf, 64);
-		DBG_PRINTF("READ DATA: %s", testBuf);
-		__io_delay(5000000);
-	}
     /* Wait for the MS500 initialize */
-    while ( PC2 != 1 );
+    while ( PC2 != 1 )
     DBG_PRINTF("MS500 Initialize done. USB Start\n");
 		
     /* Open USB controller */
@@ -216,6 +221,8 @@ int32_t main(void)
 
     while (1)
     {
+		BLE_TEST();
+		
         HID_MSC_ProcessCmd();
     }
 }

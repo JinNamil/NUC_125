@@ -1013,6 +1013,25 @@ void MSC_Write(void)
 }
 #endif
 
+//void BLE_TEST(void)
+//{
+//	uint8_t testBuf_t[64] = {0,};
+//	
+//	if( PB14 == 1 )
+//	{
+////		g_u8BP14Ready = 0;
+//		
+//		DBG_PRINTF("READ TEST START\n");
+//
+//		memset(testBuf_t, 0, 64);
+//		USPICommRead(testBuf_t, 64);
+//			
+//		DBG_PRINTF("SS:%s\n", testBuf_t);
+//			
+//		DBG_PRINTF("READ TEST COMPLETE\n");
+//	}
+//}
+
 void HID_MSC_ProcessCmd(void)
 {
     if ( g_u8BP14Ready )
